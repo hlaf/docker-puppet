@@ -10,7 +10,7 @@ node('docker-slave') {
     }
 
     stage('Build image') {
-        app = docker.build(image_name)
+        app = docker.build(image_name, "--no-cache .")
     }
 
     stage('Push image') {
