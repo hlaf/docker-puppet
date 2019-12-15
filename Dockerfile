@@ -1,4 +1,5 @@
-FROM centos:7
+ARG  BASE_IMAGE=centos:7
+FROM ${BASE_IMAGE}
 
 # Update the image with the latest packages
 RUN yum update -y; yum clean all
