@@ -1,6 +1,8 @@
 ARG  BASE_IMAGE=centos:7
 FROM ${BASE_IMAGE}
 
+USER root
+
 # Update the image with the latest packages
 RUN yum update -y; yum clean all
 
