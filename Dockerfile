@@ -1,7 +1,15 @@
 ARG  BASE_IMAGE=centos:7
+
 FROM ${BASE_IMAGE}
+ARG  LOCKED_PACKAGES
 
 USER root
+
+RUN [[ ! -z "$LOCKED_PACKAGES" ]] && \
+    yum -y install yum-plugin-versionlock && \
+    yum versionlock add $LOCKED_PACKAGES && \
+    yum clean all || \
+    exit 0
 
 # Update the image with the latest packages
 RUN yum update -y; yum clean all
