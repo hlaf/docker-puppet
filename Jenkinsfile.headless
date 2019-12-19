@@ -1,0 +1,29 @@
+#!groovy
+
+@Library('emt-pipeline-lib@master') _
+
+image_name = 'hlaf/centos7-puppet-headless'
+
+node('docker-slave') {
+
+    stage('Checkout') {
+        checkout scm
+    }
+
+    stage('Build image') {
+        domain_name = getDnsDomainName()
+        image_fqdn = 'initialize.dockerbuilder.' + domain_name
+        deletePuppetCertificate(image_fqdn)
+        sh "docker build -t ${image_name} --no-cache --build-arg BASE_IMAGE=consol/centos-xfce-vnc --build-arg LOCKED_PACKAGES='tigervnc*' ."
+    }
+
+    stage('Push image') {
+        /* Push the image with two tags:
+         * First, the incremental build number from Jenkins
+         * Second, the 'latest' tag. */
+        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+            docker.image(image_name).push("${env.BUILD_NUMBER}")
+            docker.image(image_name).push("latest")
+        }
+    }
+}
