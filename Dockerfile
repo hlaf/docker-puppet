@@ -21,4 +21,4 @@ RUN rpm --import https://yum.puppetlabs.com/RPM-GPG-KEY-puppetlabs && \
     yum install -y puppet-$PUPPET_VERSION && \
     yum clean all
 
-RUN FACTER_hostname=initialize.dockerbuilder /usr/bin/puppet agent --server puppet --environment dockerbuilder --verbose --onetime --no-daemonize --show_diff --summarize
+RUN FACTER_hostname=initialize.dockerbuilder /usr/bin/puppet agent --waitforcert --server puppet --environment dockerbuilder --verbose --onetime --no-daemonize --show_diff --summarize
