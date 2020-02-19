@@ -15,7 +15,7 @@ node('docker-slave') {
         domain_name = getDnsDomainName()
         image_fqdn = 'initialize.dockerbuilder.' + domain_name
         deletePuppetCertificate(image_fqdn, 'puppet_management_node', puppet_master)
-        sh "docker build -t ${image_name} --no-cache --build-arg PUPPET_MASTER=${puppet_master} ."
+        sh "docker build -t ${image_name} --no-cache --build-arg PUPPET_MASTER=${puppet_master}.${domain_name} ."
     }
 
     stage('Push image') {
