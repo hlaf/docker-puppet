@@ -3,7 +3,6 @@
 @Library('emt-pipeline-lib@master') _
 
 image_name = 'hlaf/centos7-puppet-headless'
-puppet_master = 'puppet-01'
 
 node('docker-slave') {
 
@@ -13,9 +12,7 @@ node('docker-slave') {
 
     stage('Build image') {
         domain_name = getDnsDomainName()
-        image_fqdn = 'initialize.dockerbuilder.' + domain_name
-        deletePuppetCertificate(image_fqdn, 'puppet_management_node', puppet_master)
-        sh "docker build -t ${image_name} --no-cache --build-arg BASE_IMAGE=consol/centos-xfce-vnc --build-arg PUPPET_MASTER=${puppet_master}.${domain_name} --build-arg LOCKED_PACKAGES='tigervnc*' ."
+        sh "docker build -t ${image_name} --no-cache --build-arg BASE_IMAGE=consol/centos-xfce-vnc --build-arg LOCKED_PACKAGES='tigervnc*' ."
     }
 
     stage('Push image') {
