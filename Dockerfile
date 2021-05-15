@@ -6,6 +6,7 @@ ARG  LOCKED_PACKAGES
 USER root
 
 RUN [[ ! -z "$LOCKED_PACKAGES" ]] && \
+    yum-config-manager --disable tigervnc-el7 && \
     yum -y install yum-plugin-versionlock && \
     yum versionlock add $LOCKED_PACKAGES && \
     yum clean all || \
