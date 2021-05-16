@@ -12,7 +12,7 @@ node('docker-slave') {
 
     stage('Build image') {
         domain_name = getDnsDomainName()
-        sh "docker build -t ${image_name} --no-cache --build-arg BASE_IMAGE=consol/centos-xfce-vnc --build-arg LOCKED_PACKAGES='tigervnc*' ."
+        sh "docker build -t ${image_name} --no-cache --build-arg BASE_IMAGE=consol/centos-xfce-vnc:1.4.0 --build-arg LOCKED_PACKAGES='tigervnc*' ."
     }
 
     stage('Push image') {
