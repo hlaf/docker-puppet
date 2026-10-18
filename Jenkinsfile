@@ -12,7 +12,7 @@ if (is_headless) {
   build_args = ''
 }
 
-node('docker-slave') {
+node('docker-cloud-agent') {
 
     stage('Checkout') {
         checkout scm
